@@ -1,0 +1,17 @@
+Priority queues are great for quickly finding the node with the minimum f score. Great choice! However, the algorithm should not need to 
+loop through a data structure just to know if an element is in there (membership checks) when there are more appropriate data structures for this task. 
+Take a look at this implementation:
+
+https://networkx.github.io/documentation/networkx-1.10/_modules/networkx/algorithms/shortest_paths/astar.html#astar_path
+
+they use a priority queue just like you, but when it comes to checking if a node is already in the open set, a dict is used. 
+Both sets and dicts (contrary to lists) are very quick for membership checks, since they make use of hash tables 
+( https://en.wikipedia.org/wiki/Hash_table ).
+
+
+
+Apart from the inappropriate use of data structures mentioned above, the algorithm is well-crafted, with no blatant performance downfalls.
+
+
+
+
