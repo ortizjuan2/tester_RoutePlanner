@@ -3,6 +3,7 @@ from student_code import shortest_path
 from helpers import load_map, show_map
 from optparse import OptionParser
 from time import clock
+from bcolors import bcolors
 
 
 if __name__=='__main__':
@@ -17,7 +18,7 @@ if __name__=='__main__':
     (options, arg) = parser.parse_args()
     # check for options
     if not options.start or not options.goal or not options.map_filename:
-        parser.error("you must specify options, please type -h for details.")
+        parser.error(bcolors.FAIL + "you must specify options, please type -h for details." + bcolors.ENDC)
     #
     start = int(options.start)
     goal = int(options.goal)
@@ -25,7 +26,9 @@ if __name__=='__main__':
     # load map
     M = load_map(map_filename)
     start_t = clock()
+    print('Starting search...', end='', flush=True)
     path = shortest_path(M, start, goal)
     end_t = clock()
+    print(bcolors.OKGREEN + '\t[DONE]' + bcolors.ENDC) 
     print('Best path found {}'.format(path))
     print('Lapsed time: {0:2.4f} secs'.format(end_t - start_t))
