@@ -3,8 +3,9 @@ import networkx as nx
 from random import randint
 from helpers import Map, load_map
 import pickle
+from bcolors import bcolors
 
-TOTAL_NODES = 10000
+TOTAL_NODES = 1000
 
 def create_path(start, goal, num_nodes=10):
     '''
@@ -30,22 +31,26 @@ def create_path(start, goal, num_nodes=10):
 
 if __name__ == '__main__':
     # generate nodes
-    print('Starting node generation...')
+    print('Starting node generation...'),
     nodes = [i for i in range(TOTAL_NODES)]
+    print(bcolors.OKGREEN + '\t[DONE]' + bcolors.ENDC) 
     # create test network
     G = nx.Graph()
     G.add_nodes_from(nodes)
     edges = set()
     # generate edges from paths
+    print('Starting edge generation...'),
     start = 0
     goal = TOTAL_NODES - 1
     for _ in range(int(TOTAL_NODES / 10)):
         num_nodes = randint(4, int(TOTAL_NODES/4))
         edges = edges.union(create_path(start, goal, num_nodes))
     G.add_edges_from(edges)
+    print(bcolors.OKGREEN + '\t[DONE]' + bcolors.ENDC) 
     # generate nodes position
     attr = {}
     pos = set()
+    print('Adding position attribute...'),
     while len(pos) < TOTAL_NODES:
         x = randint(0, TOTAL_NODES * 2)
         y = randint(0, TOTAL_NODES * 2)
@@ -56,10 +61,11 @@ if __name__ == '__main__':
         i += 1
     #set node position attribure
     nx.set_node_attributes(G, 'pos', attr)
+    print(bcolors.OKGREEN + '\t[DONE]' + bcolors.ENDC) 
     fname = 'map-%s.pickle' % TOTAL_NODES
     # Serialize data to disk using pickle
+    print('Saving file {} to disk...'.format(fname))
     with open(fname, 'wb') as f:
         pickle.dump(G, f, 2)
-        print('file {} was written to disk!'.format(fname))
-
+    print(bcolors.OKGREEN + '\t[DONE]' + bcolors.ENDC) 
 

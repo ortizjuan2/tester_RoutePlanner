@@ -1,0 +1,39 @@
+1. Define the data structures needed to hold the nodes that will be explored (Frontier), the nodes already explored (explored) and any other needed eg. (gcost), (parents).
+2. Initialize those data structures. The most important is the Frontier with the fcost value and the start node. For the frontier the best way is to use a priority queue: https://docs.python.org/2/library/heapq.html
+```python
+frontier = []
+heappush((fcost, start))
+```
+3. Execute the algorithm while there are nodes in the Frontier eg.
+```python
+while frontier:
+.
+```
+4. 	pop the best node from the Frontier, look what easy it is using the priority queue that already sorted the best nodes according to its fscore
+```python
+f, best = heappop(frontier)
+.
+```
+5.	if the poppep node is the goal, return the final path. (Here you can backtrack the Parent structure)
+6.	Include the popped node in the Explored set to avoid exploring it when looking at the neighbors nodes
+7.	For each neighbor of the poppep node do:
+8.		check if the neihbor is in the explored set, if yes continue.
+9.		calculate the gcost to reach the neighbor
+10.		if the new_gcost if better than the current gcost for the neighbor then make the updates, eg.
+```python
+gcost[neighbor] = newg_cost
+parent[neighbor] = best
+heappush(frontier, (newfcost, neighbor))
+.
+```
+11. Start again at 3
+
+Now, for the function that finds the final path you can do something like this to recosntruct the final path from the parent datastructure
+```python
+path = []
+current = goal
+while current != None:
+    path.append(current)
+    current = parent[current]
+return path[::-1] # return path in reverse order
+```
