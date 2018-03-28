@@ -2,7 +2,7 @@
 2. Initialize those data structures. The most important is the Frontier with the fcost value and the start node. For the frontier the best way is to use a priority queue: https://docs.python.org/2/library/heapq.html
 ```python
 frontier = []
-heappush((fcost, start))
+heappush(frontier, (fcost, start))
 ```
 3. Execute the algorithm while there are nodes in the Frontier eg.
 ```python
@@ -15,9 +15,13 @@ f, best = heappop(frontier)
 .
 ```
 5.	if the poppep node is the goal, return the final path. (Here you can backtrack the Parent structure)
+```python
+for neighbor in M.roads[best]:
+.
+```
 6.	Include the popped node in the Explored set to avoid exploring it when looking at the neighbors nodes
 7.	For each neighbor of the poppep node do:
-8.		check if the neihbor is in the explored set, if yes continue.
+8.		check if the neihbor is in the explored set, if yes continue with next.
 9.		calculate the gcost to reach the neighbor
 10.		if the new_gcost if better than the current gcost for the neighbor then make the updates, eg.
 ```python
@@ -37,3 +41,22 @@ while current != None:
     current = parent[current]
 return path[::-1] # return path in reverse order
 ```
+
+
+
+------
+
+You are storing partial paths inside your queue structure, that will consume more memory and degrade the performance of your algorithm. One option to solve this is to use a data structure to hold the relationship between parent node and neighbor node, then at the end you can trace back the final path. eg.
+This assumes that each time you add new nodes to the frontier, you will update the parent data structure:
+
+parent[neighbor] = best
+.
+.
+path = []
+current = goal
+while current != None:
+    path.append(current)
+    current = parent[current]
+return path[::-1] # return path in reverse order
+
+------
